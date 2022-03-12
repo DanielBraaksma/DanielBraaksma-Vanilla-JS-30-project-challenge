@@ -58,6 +58,32 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+    const keys = Array.from(document.querySelectorAll('.key')); //grab keys. Array.from is a cool way to create array from html collection//
+
+
+  function removeTransition (e){
+    if (e.propertyName !== 'transform') return; // if it hasn't transitioned don't do anything
+    this.classList.remove('playing'); //if it has remove playing class from the key. "This" refers to the key element here.
+  }
+
+  function playSound (e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); //grab the respective key/audio using event id.
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`); // grab the respective key/audio using event id.
+    if (!audio) return;
+
+    key.classList.add('playing'); //add the animation
+    audio.currentTime = 0; // reset time so audio can play again
+    audio.play(); //play the sound
+  }
+
+// listen to each key//
+    // things to do: 1-play the sound 2-add the animation, then remove it.
+
+  keys.forEach((key)=>{
+    key.addEventListener("transitionend", removeTransition)
+  })
+
+  window.addEventListener("keydown", playSound)
 
 </script>
 
